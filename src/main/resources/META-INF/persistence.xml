@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.2">
+    <persistence-unit name="lab1PersistenceUnit">
+        <jta-data-source>Lab1DataSource</jta-data-source>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/h2database/Lab1DB"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+<!--            <property name="hibernate.hbm2ddl.auto" value="create"/>-->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>

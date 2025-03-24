@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head/>
+<h:body>
+    <h2>Studentai:</h2>
+    <ol>
+        <ui:repeat value="#{studentai.visiStudentai}" var="studentas">
+            <li>
+                <h:link value="#{studentas.vardas}" outcome="pasirenkamiejiDalykai?studentoId=#{studentas.id}"/>
+                <h:outputText value=" " />
+                <h:link value="#{studentas.grupe.numeris}" outcome="grupe?grupesId=#{studentas.grupe.id}"/>
+            </li>
+        </ui:repeat>
+    </ol>
+    <h3>Grupių skaičius: #{grupes.visosGrupes.size()}</h3>
+    <h:form>
+        <h:commandButton value="Sukurti naują grupę" actionListener="#{grupes.sukurtiNaujaGrupe()}"
+                         action="index?faces-redirect=true"/>
+    </h:form>
+
+    <h3>Pridėti Pasirenkamąjį Dalyką</h3>
+    <h:form>
+        <h:inputText value="#{pasirenkamiejiDalykai.sukuriamasPasirenkamasisDalykas.pavadinimas}" placeholder="Pavadinimas"/>
+        <h:commandButton value="Pridėti" actionListener="#{pasirenkamiejiDalykai.createPasirenkamasisDalykas()}"
+                         action="index?faces-redirect=true"/>
+    </h:form>
+
+    <h3>Pridėti Studentą</h3>
+    <h:form>
+        <h:inputText value="#{studentai.sukuriamasStudentasDTO.vardas}" placeholder="Vardas"/>
+
+        <h:selectOneMenu value="#{studentai.sukuriamasStudentasDTO.grupeId}" required="true">
+            <f:selectItems value="#{grupes.visosGrupes}" var="grupe"
+                           itemValue="#{grupe.id}" itemLabel="#{grupe.numeris}"/>
+        </h:selectOneMenu>
+
+        <h:commandButton value="Pridėti" actionListener="#{studentai.sukurtiStudenta()}"
+                         action="index?faces-redirect=true"/>
+    </h:form>
+</h:body>
+</html>
