@@ -14,14 +14,17 @@
         </ui:repeat>
     </ol>
 
-    <h2>Prideti pasirenkamaji dalyka</h2>
-    <h:form>
-        <h:selectOneMenu value="#{updateStudentoDetails.pridedamasPasirenkamasisDalykasId}" required="true">
+
+    <h:form rendered="#{not empty studentai.laisviPasirenkamiejiDalykai}">
+        <h2>Prideti pasirenkamaji dalyka</h2>
+        <h:selectOneMenu value="#{studentai.pridedamasPasirenkamasisDalykas}" required="true">
             <f:selectItems value="#{studentai.laisviPasirenkamiejiDalykai}" var="pasirenkamasisDalykas"
                            itemValue="#{pasirenkamasisDalykas.id}" itemLabel="#{pasirenkamasisDalykas.pavadinimas}"/>
         </h:selectOneMenu>
 
-        <h:commandButton value="Pridėti" action="#{updateStudentoDetails.pridetiPasirenkamajiDalykaStudentui()}"/>
+        <h:commandButton value="Pridėti" action="#{studentai.pridetiPasirenkamajiDalyka}">
+            <f:param name="studentoId" value="#{updateStudentoDetails.studentas.id}" />
+        </h:commandButton>
     </h:form>
 </h:body>
 </html>

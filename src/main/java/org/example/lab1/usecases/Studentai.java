@@ -23,22 +23,20 @@ import java.util.stream.Collectors;
 public class Studentai {
     @Inject
     private StudentasDAO studentasDAO;
-
     @Inject
     private GrupeDAO grupeDAO;
+    @Inject
+    private PasirenkamasisDalykasDAO pasirenkamasisDalykasDAO;
 
     @Getter @Setter
     private StudentasDTO sukuriamasStudentasDTO = new StudentasDTO();
+    @Getter @Setter
+    private Integer pridedamasPasirenkamasisDalykas;
 
     @Getter
     private List<Studentas> visiStudentai;
     @Getter
     private List<PasirenkamasisDalykas> laisviPasirenkamiejiDalykai;
-
-    @Getter @Setter
-    private Integer pridedamasPasirenkamasisDalykas;
-    @Inject
-    private PasirenkamasisDalykasDAO pasirenkamasisDalykasDAO;
 
     @PostConstruct
     public void init() {
@@ -61,24 +59,21 @@ public class Studentai {
 
     @Transactional
     public String pridetiPasirenkamajiDalyka(){
+        //get the studentasId
         Map<String, String> requestParameters =
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        Studentas studentasIsParametru = studentasDAO.findOne(Integer.parseInt(requestParameters.get("studentoId")));
+        Integer studentasIsParametru = Integer.parseInt(requestParameters.get("studentoId"));
 
-        List<PasirenkamasisDalykas> pasirinktiDalykai = studentasIsParametru.getPasirenkamiejiDalykai();
-        PasirenkamasisDalykas p = pasirenkamasisDalykasDAO.findOne(pridedamasPasirenkamasisDalykas);
-        pasirinktiDalykai.add(p);
-        studentasDAO.update(studentasIsParametru);
+        System.out.println("Method called: pridetiPasirenkamajiDalyka");
+        System.out.println("Student: " + studentasIsParametru);
+        System.out.println("Course ID: " + pridedamasPasirenkamasisDalykas);
 
-        // Reset the selection to avoid validation errors on redirect
-        this.pridedamasPasirenkamasisDalykas = null;
-
+        studentasDAO.addPasirenkamasisDalykas(studentasIsParametru, pridedamasPasirenkamasisDalykas);
         return "pasirenkamiejiDalykai.xhtml?studentoId=" + requestParameters.get("studentoId")+"&faces-redirect=true";
     }
 
     @Transactional
     public void sukurtiStudenta() {
-//        System.out.println(sukuriamasStudentas.getGrupe());
         Grupe grupe = grupeDAO.findOne(sukuriamasStudentasDTO.getGrupeId());
         Studentas s = new Studentas();
 

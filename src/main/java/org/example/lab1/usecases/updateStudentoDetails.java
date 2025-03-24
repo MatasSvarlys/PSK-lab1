@@ -24,7 +24,6 @@ import java.util.Map;
 public class updateStudentoDetails implements Serializable {
 
     private Studentas studentas;
-    private Integer pridedamasPasirenkamasisDalykasId;
 
     @Inject
     private StudentasDAO studentasDAO;
@@ -41,17 +40,4 @@ public class updateStudentoDetails implements Serializable {
         this.studentas = studentasDAO.findOne(studentoId);
     }
 
-    @Transactional
-    @LoggedInvocation
-    public String pridetiPasirenkamajiDalykaStudentui() {
-        System.out.println("bandom pridet PasirenkamajiDalykaStudentui");
-        try{
-            PasirenkamasisDalykas pasirenkamasisDalykas = pasirenkamasisDalykasDAO.findOne(pridedamasPasirenkamasisDalykasId);
-            studentas.getPasirenkamiejiDalykai().add(pasirenkamasisDalykas);
-            studentasDAO.update(studentas);
-        } catch (OptimisticLockException e) {
-            return "/pasirenkamiejiDalykai.xhtml?faces-redirect=true&studentoId=" + this.studentas.getId() + "&error=optimistic-lock-exception";
-        }
-        return "pasirenkamiejiDalykai.xhtml?studentoId=" + this.studentas.getId() + "&faces-redirect=true";
-    }
 }
